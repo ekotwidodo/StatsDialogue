@@ -1,92 +1,167 @@
 [
   {
     "id": "q01",
+    "slice": "lexical",
     "question": "What was the inflation rate in West Java in 2024?",
     "gold": {
       "tables": ["fact_inflation"],
       "columns": ["time_period", "geo_code", "inflation_rate"],
-      "labels": ["Inflation rate", "West Java"]
+      "labels": ["Inflation rate", "West Java"],
+      "sql": "SELECT inflation_rate FROM fact_inflation WHERE geo_code = '32' AND time_period = '2024'"
     }
   },
   {
     "id": "q02",
+    "slice": "lexical",
     "question": "Berapa persentase penduduk miskin di Jawa Tengah tahun 2023?",
     "gold": {
       "tables": ["fact_poverty"],
       "columns": ["time_period", "geo_code", "poverty_rate"],
-      "labels": ["Poverty percentage", "Central Java"]
+      "labels": ["Poverty percentage", "Central Java"],
+      "sql": "SELECT poverty_rate FROM fact_poverty WHERE geo_code = '33' AND time_period = '2023'"
     }
   },
   {
     "id": "q03",
+    "slice": "lexical",
     "question": "Show regional minimum wage in DKI Jakarta",
     "gold": {
       "tables": ["fact_min_wage"],
       "columns": ["time_period", "geo_code", "min_wage"],
-      "labels": ["Regional minimum wage", "DKI Jakarta"]
+      "labels": ["Regional minimum wage", "DKI Jakarta"],
+      "sql": "SELECT time_period, min_wage FROM fact_min_wage WHERE geo_code = '31' ORDER BY time_period"
     }
   },
   {
     "id": "q04",
+    "slice": "lexical",
     "question": "How many poor people in East Java?",
     "gold": {
       "tables": ["fact_poverty"],
       "columns": ["geo_code", "poor_pop"],
-      "labels": ["Number of poor population", "East Java"]
+      "labels": ["Number of poor population", "East Java"],
+      "sql": "SELECT poor_pop FROM fact_poverty WHERE geo_code = '35' AND time_period = '2024'"
     }
   },
   {
     "id": "q05",
+    "slice": "lexical",
     "question": "Trend of inflation over the last five years",
     "gold": {
       "tables": ["fact_inflation"],
       "columns": ["time_period", "inflation_rate"],
-      "labels": ["Inflation rate"]
+      "labels": ["Inflation rate"],
+      "sql": "SELECT time_period, inflation_rate FROM fact_inflation WHERE geo_code = '00' ORDER BY time_period"
     }
   },
   {
     "id": "q06",
+    "slice": "lexical",
     "question": "Compare poverty rate between Yogyakarta and Jakarta",
     "gold": {
       "tables": ["fact_poverty"],
       "columns": ["geo_code", "poverty_rate"],
-      "labels": ["Poverty percentage", "Yogyakarta"]
+      "labels": ["Poverty percentage", "Yogyakarta"],
+      "sql": "SELECT geo_code, poverty_rate FROM fact_poverty WHERE geo_code IN ('31', '34') AND time_period = '2024' ORDER BY geo_code"
     }
   },
   {
     "id": "q07",
+    "slice": "lexical",
     "question": "UMR Jawa Timur 2025",
     "gold": {
       "tables": ["fact_min_wage"],
       "columns": ["time_period", "geo_code", "min_wage"],
-      "labels": ["Regional minimum wage", "East Java"]
+      "labels": ["Regional minimum wage", "East Java"],
+      "sql": "SELECT min_wage FROM fact_min_wage WHERE geo_code = '35' AND time_period = '2025'"
     }
   },
   {
     "id": "q08",
+    "slice": "lexical",
     "question": "Which provinces have inflation above the national average?",
     "gold": {
       "tables": ["fact_inflation"],
       "columns": ["geo_code", "inflation_rate"],
-      "labels": ["Inflation rate", "Indonesia"]
+      "labels": ["Inflation rate", "Indonesia"],
+      "sql": "SELECT geo_code, inflation_rate FROM fact_inflation WHERE time_period = '2024' AND geo_code <> '00' AND inflation_rate > (SELECT inflation_rate FROM fact_inflation WHERE time_period = '2024' AND geo_code = '00') ORDER BY geo_code"
     }
   },
   {
     "id": "q09",
+    "slice": "lexical",
     "question": "income of workers in Bali",
     "gold": {
       "tables": ["fact_min_wage"],
       "columns": ["geo_code", "min_wage"],
-      "labels": ["Regional minimum wage", "Bali"]
+      "labels": ["Regional minimum wage", "Bali"],
+      "sql": "SELECT min_wage FROM fact_min_wage WHERE geo_code = '51' AND time_period = '2025'"
     }
   },
   {
     "id": "q10",
+    "slice": "lexical",
     "question": "jumlah penduduk miskin Indonesia",
     "gold": {
       "tables": ["fact_poverty"],
       "columns": ["poor_pop"],
-      "labels": ["Number of poor population", "Indonesia"]
+      "labels": ["Number of poor population", "Indonesia"],
+      "sql": "SELECT poor_pop FROM fact_poverty WHERE geo_code = '00' AND time_period = '2024'"
+    }
+  },
+  {
+    "id": "q11",
+    "slice": "semantic",
+    "question": "How fast did the cost of living rise in Bandung's province in 2024?",
+    "gold": {
+      "tables": ["fact_inflation"],
+      "columns": ["time_period", "geo_code", "inflation_rate"],
+      "labels": ["Inflation rate", "West Java"],
+      "sql": "SELECT inflation_rate FROM fact_inflation WHERE geo_code = '32' AND time_period = '2024'"
+    }
+  },
+  {
+    "id": "q12",
+    "slice": "semantic",
+    "question": "Berapa penghasilan bulanan buruh di Pulau Dewata tahun 2025?",
+    "gold": {
+      "tables": ["fact_min_wage"],
+      "columns": ["time_period", "geo_code", "min_wage"],
+      "labels": ["Regional minimum wage", "Bali"],
+      "sql": "SELECT min_wage FROM fact_min_wage WHERE geo_code = '51' AND time_period = '2025'"
+    }
+  },
+  {
+    "id": "q13",
+    "slice": "semantic",
+    "question": "Proporsi warga prasejahtera di provinsi Kota Pelajar pada 2024",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["time_period", "geo_code", "poverty_rate"],
+      "labels": ["Poverty percentage", "Yogyakarta"],
+      "sql": "SELECT poverty_rate FROM fact_poverty WHERE geo_code = '34' AND time_period = '2024'"
+    }
+  },
+  {
+    "id": "q14",
+    "slice": "semantic",
+    "question": "Total underprivileged residents in Surabaya's province in 2024",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["geo_code", "poor_pop"],
+      "labels": ["Number of poor population", "East Java"],
+      "sql": "SELECT poor_pop FROM fact_poverty WHERE geo_code = '35' AND time_period = '2024'"
+    }
+  },
+  {
+    "id": "q15",
+    "slice": "semantic",
+    "question": "Monthly take-home pay for labor in Tanah Pasundan in 2025",
+    "gold": {
+      "tables": ["fact_min_wage"],
+      "columns": ["time_period", "geo_code", "min_wage"],
+      "labels": ["Regional minimum wage", "West Java"],
+      "sql": "SELECT min_wage FROM fact_min_wage WHERE geo_code = '32' AND time_period = '2025'"
     }
   }
 ]

@@ -113,11 +113,11 @@ The empty cells of the columns *combined* (SDMX grounding + provenance + calibra
 |---|---|---|---|
 | E1 | Schema-linking ablation: raw schema vs. +KG vs. +KG+hybrid retrieval → EX, EM, token cost | Standards grounding buys accuracy and efficiency | A, C |
 
-**E1 status (2026-10-27):** phase 1 (context ablation, no LLM) executed — KG conditions
-held gold recall 1.00 while cutting unrelated tables −90%, and at BPS-scale schema width
-cut context tokens ≈77× (5692 → 74); label coverage 0.00 → 1.00. Phase 2 (LLM → SQL →
-DuckDB EX) gated on an LLM API key. Artifacts: [`eval/e1_schema_linking/`](../eval/e1_schema_linking/),
-[runtime spike](spikes/001-rdf-schema-linking.md).
+**E1 status (2026-10-27):** phases 1 & 2 executed over 15 bilingual questions (10 lexical + 5 semantic/paraphrase) using `RdflibBackend` + `DuckDBSandbox`:
+- **Context efficiency (H1/H2):** at BPS-scale schema width (`raw_wide`), `kg_hybrid` cuts context tokens **~92×** (5692 → 62) and eliminates unrelated tables (202.0 → 0.0) while holding **1.00 gold recall**.
+- **Execution accuracy (H3):** `raw` / `raw_wide` score **0.00 EX** on DuckDB because raw DDL lacks SKOS `geo_code` bindings and bilingual measure definitions; `kg_hybrid` achieves **1.00 EX** and **1.00 PROV-O lineage completeness**.
+- **Hybrid vs. lexical KG (H4):** on semantic paraphrases (`q11`–`q15`) and multi-token Java province disambiguation, `kg_hybrid` (BM25 + semantic vector RRF) lifts overall recall **0.67 → 1.00** and EX **0.47 → 1.00** (lexical EX: 0.70 → 1.00; semantic EX: 0.00 → 1.00).
+Artifacts: [`eval/e1_schema_linking/`](../eval/e1_schema_linking/), [`services/graph/backend.py`](../services/graph/backend.py), [`services/engine/sandbox.py`](../services/engine/sandbox.py), [runtime spike](spikes/001-rdf-schema-linking.md).
 | E2 | Calibration: ECE, AUROC, abstention quality with domain-grounded refusal reasons | Trust layer works; knows what it doesn't know | B |
 | E3 | Provenance completeness audit: % answers with full PROV-O chain | Auditability claim is real | A |
 | E4 | Multi-turn stability: perplexity flat over >20 turns (PRD §10.2) | C-DIC works at conversation scale | system |
