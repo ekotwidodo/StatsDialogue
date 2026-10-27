@@ -30,6 +30,7 @@ StatsDialogue is built specifically to address these gaps, combining recent NLP 
 | **Multi-turn dialogue** | Maintains coherent context across long conversations via incremental memory compression and coreference resolution. |
 | **Proactive clarification** | Detects ambiguous or unanswerable questions and asks for clarification instead of guessing. |
 | **Grounded Text-to-SQL** | Translates natural language into SQL through schema linking, AST decomposition, and self-correction — never free-form hallucination. |
+| **Knowledge Graph & GraphRAG** | Schemas and historical queries are mapped into an RDF knowledge graph queried with SPARQL — grounded in statistical standards (SDMX, SKOS, W3C Data Cube) for multi-hop reasoning and graph-guided retrieval. |
 | **Semantic consistency** | Centralized metric definitions ensure calculations stay reproducible and consistent with official methodology. |
 | **Confidence calibration** | Conformal prediction and consistency-based scoring quantify uncertainty; the system abstains when confidence is low. |
 | **Full provenance** | Every answer comes with a traceable lineage: source → transformation → result. |
@@ -41,7 +42,7 @@ StatsDialogue is built specifically to address these gaps, combining recent NLP 
 
 StatsDialogue natively integrates with two complementary standards:
 
-- **[SDMX 3.0](https://sdmx.org/)** — ISO 17369 standard for statistical data and metadata exchange, used by the UN, IMF, World Bank, Eurostat, and others. StatsDialogue leverages dataflows, data structure definitions (DSDs), and codelhs for precise schema grounding.
+- **[SDMX 3.0](https://sdmx.org/)** — ISO 17369 standard for statistical data and metadata exchange, used by the UN, IMF, World Bank, Eurostat, and others. StatsDialogue leverages dataflows, data structure definitions (DSDs), and codelists for precise schema grounding.
 - **[BPS WebAPI](https://webapi.bps.go.id/)** — Open data portal from Statistics Indonesia, covering 1,000+ official datasets, including SDG and SDDS catalogs.
 
 ---
@@ -50,32 +51,45 @@ StatsDialogue natively integrates with two complementary standards:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Conversational UI                     │
+│        Web UI · Home · Chat (OAuth) · Admin             │
 └───────────────────────────┬─────────────────────────────┘
                             │
 ┌───────────────────────────▼─────────────────────────────┐
-│     Dialogue Understanding & Context Management          │
-│   (incremental memory · coreference · DST · abstention)  │
+│     Dialogue Understanding & Context Management         │
+│   (incremental memory · coreference · DST · abstention) │
 └───────────────────────────┬─────────────────────────────┘
                             │
 ┌───────────────────────────▼─────────────────────────────┐
-│         Query Generation & Confidence Layer              │
-│   (hybrid RAG · schema linking · AST decomposition ·     │
-│    conformal calibration · semantic layer)               │
+│         Query Generation & Confidence Layer             │
+│   (hybrid RAG · schema linking · AST decomposition ·    │
+│    conformal calibration · semantic layer)              │
 └───────────────────────────┬─────────────────────────────┘
                             │
 ┌───────────────────────────▼─────────────────────────────┐
-│         Secure Analytical Engine (read-only sandbox)     │
+│         Knowledge Graph & GraphRAG Service              │
+│   (RDF triples · SPARQL traversal · ontology)           │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+┌───────────────────────────▼─────────────────────────────┐
+│         Secure Analytical Engine (read-only sandbox)    │
 │   (in-memory OLAP · differential privacy · k-anonymity) │
 └───────────────────────────┬─────────────────────────────┘
                             │
 ┌───────────────────────────▼─────────────────────────────┐
-│        Data Integration & Provenance Layer               │
+│        Data Integration & Provenance Layer              │
 │   (BPS WebAPI · SDMX 3.0 · VTL · W3C PROV-O lineage)    │
 └─────────────────────────────────────────────────────────┘
 ```
 
-The system runs as a set of asynchronous microservices: a metadata/integration service, a dialogue memory service, a query generation and calibration service, and a sandboxed compute engine.
+The system runs as a set of asynchronous microservices: a metadata/integration service, a knowledge graph service, a dialogue memory service, a query generation and calibration service, and a sandboxed compute engine.
+
+### User Interfaces
+
+StatsDialogue ships with three front-end surfaces:
+
+- **Home** — a landing page introducing the system and its capabilities to build public trust.
+- **Conversation** — the core chat interface, gated by Google sign-in. Authenticated sessions store user-specific dialogue memory threads and interaction authorization logs.
+- **Admin Dashboard** — a management console for tracking API rate limits, reviewing provenance logs, managing user roles, and monitoring confidence calibration metrics.
 
 ---
 
@@ -85,9 +99,10 @@ The system runs as a set of asynchronous microservices: a metadata/integration s
 |---|---|
 | Language & runtime | Python 3.11+ |
 | Analytical engine | DuckDB (in-memory, columnar OLAP) |
+| Knowledge graph | RDF triple store — rdflib / Fuseki (SPARQL) |
 | Query mediation | Semantic layer (MetricFlow / Cube / Malloy) |
-| Data standards | SDMX 3.0, VTL 2.x |
-| Retrieval | Hybrid search (BM25 + vector embeddings) |
+| Data standards | SDMX 3.0, VTL 2.x, W3C Data Cube & SKOS vocabularies |
+| Retrieval | Hybrid search (BM25 + vector embeddings) + SPARQL graph traversal (GraphRAG) |
 | Provenance | W3C PROV-O |
 | Governance | ISO/IEC 42001, NIST AI RMF |
 
@@ -127,11 +142,13 @@ statsdialogue/
 ├── PRD.md               # full product requirements (local only)
 ├── services/
 │   ├── metadata/        # BPS WebAPI & SDMX integration
+│   ├── graph/           # knowledge graph & GraphRAG service
 │   ├── dialog/          # dialogue state & memory management
 │   ├── generator/       # Text-to-SQL & confidence calibration
 │   └── engine/          # sandboxed analytical compute
 ├── semantic/            # metric & dimension definitions
 ├── provenance/          # lineage tracking (PROV-O)
+├── web/                 # home, conversation, admin dashboard
 ├── eval/                # benchmarks & evaluation harness
 └── docs/
 ```
