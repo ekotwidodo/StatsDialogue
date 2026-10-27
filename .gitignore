@@ -1,0 +1,66 @@
+# === Confidential Documents ===
+# PRD & dokumen strategis — JANGAN di-commit
+PRD.md
+*.prd.md
+docs/private/
+draft/
+
+# === Secrets & Environment ===
+.env
+.env.*
+*.key
+*api_key*
+*API_KEY*
+config/secrets.*
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# === Jupyter ===
+.ipynb_checkpoints/
+
+# === Node ===
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
+.next/
+out/
+
+# === DuckDB / Local Data Cache ===
+*.duckdb
+*.duckdb.wal
+/tmp/stats_cache/
+data/cache/
+*.parquet
+*.csv
+!tests/fixtures/*.csv
+
+# === IDE & OS ===
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# === Logs ===
+*.log
+logs/
