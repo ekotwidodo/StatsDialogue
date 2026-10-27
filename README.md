@@ -151,6 +151,9 @@ statsdialogue/
 ├── web/                 # home, conversation, admin dashboard
 ├── eval/                # benchmarks & evaluation harness
 └── docs/
+    ├── adr/             # architecture decision records
+    │   └── 0001-graph-model-rdf-over-lpg.md
+    └── positioning.md   # novelty & contribution claims (internal)
 ```
 
 ---

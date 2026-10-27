@@ -123,8 +123,8 @@ The empty cells of the columns *combined* (SDMX grounding + provenance + calibra
 
 1. **Dataset scope** — BPS-only or multi-NSO? Indonesian, English, or bilingual?
 2. **Venue decision gate** — decide *after* E1/E2, not before. No venue-driven scope changes.
-3. **ADR-0001 (graph model: RDF)** — PRD §4.2 already reflects the RDF choice; formal ADR still to be written to record the alternative (LPG/Ultipa) and why it was rejected.
-4. **README sync** — repo README still says "property graph / Neo4j / Memgraph"; must be updated to RDF/SPARQL once the model decision is locked (this document + PRD §4.2).
+3. ~~**ADR-0001 (graph model: RDF)**~~ — **resolved:** `docs/adr/0001-graph-model-rdf-over-lpg.md` records the decision, the considered options (Neo4j, Memgraph, Ultipa, hybrid), consequences, and revisit triggers.
+4. ~~**README sync**~~ — **resolved:** README now reflects the RDF/SPARQL direction (capabilities, architecture diagram, tech stack, docs structure).
 5. **Related-work verification** — Gov-Transparency paper (2025) and SISCC SDMX+AI materials need a full read during the formal related-work pass.
 
 ---
