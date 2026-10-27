@@ -1,7 +1,8 @@
 # === Confidential Documents ===
-# PRD & dokumen strategis — JANGAN di-commit
+# PRD, PDF & dokumen strategis — JANGAN di-commit
 PRD.md
 *.prd.md
+*.pdf
 docs/private/
 draft/
 
