@@ -1,0 +1,92 @@
+[
+  {
+    "id": "q01",
+    "question": "What was the inflation rate in West Java in 2024?",
+    "gold": {
+      "tables": ["fact_inflation"],
+      "columns": ["time_period", "geo_code", "inflation_rate"],
+      "labels": ["Inflation rate", "West Java"]
+    }
+  },
+  {
+    "id": "q02",
+    "question": "Berapa persentase penduduk miskin di Jawa Tengah tahun 2023?",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["time_period", "geo_code", "poverty_rate"],
+      "labels": ["Poverty percentage", "Central Java"]
+    }
+  },
+  {
+    "id": "q03",
+    "question": "Show regional minimum wage in DKI Jakarta",
+    "gold": {
+      "tables": ["fact_min_wage"],
+      "columns": ["time_period", "geo_code", "min_wage"],
+      "labels": ["Regional minimum wage", "DKI Jakarta"]
+    }
+  },
+  {
+    "id": "q04",
+    "question": "How many poor people in East Java?",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["geo_code", "poor_pop"],
+      "labels": ["Number of poor population", "East Java"]
+    }
+  },
+  {
+    "id": "q05",
+    "question": "Trend of inflation over the last five years",
+    "gold": {
+      "tables": ["fact_inflation"],
+      "columns": ["time_period", "inflation_rate"],
+      "labels": ["Inflation rate"]
+    }
+  },
+  {
+    "id": "q06",
+    "question": "Compare poverty rate between Yogyakarta and Jakarta",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["geo_code", "poverty_rate"],
+      "labels": ["Poverty percentage", "Yogyakarta"]
+    }
+  },
+  {
+    "id": "q07",
+    "question": "UMR Jawa Timur 2025",
+    "gold": {
+      "tables": ["fact_min_wage"],
+      "columns": ["time_period", "geo_code", "min_wage"],
+      "labels": ["Regional minimum wage", "East Java"]
+    }
+  },
+  {
+    "id": "q08",
+    "question": "Which provinces have inflation above the national average?",
+    "gold": {
+      "tables": ["fact_inflation"],
+      "columns": ["geo_code", "inflation_rate"],
+      "labels": ["Inflation rate", "Indonesia"]
+    }
+  },
+  {
+    "id": "q09",
+    "question": "income of workers in Bali",
+    "gold": {
+      "tables": ["fact_min_wage"],
+      "columns": ["geo_code", "min_wage"],
+      "labels": ["Regional minimum wage", "Bali"]
+    }
+  },
+  {
+    "id": "q10",
+    "question": "jumlah penduduk miskin Indonesia",
+    "gold": {
+      "tables": ["fact_poverty"],
+      "columns": ["poor_pop"],
+      "labels": ["Number of poor population", "Indonesia"]
+    }
+  }
+]

@@ -2,7 +2,7 @@
 
 > **Internal working document.** Purpose: fix the novelty claims *before* selecting a publication venue. Venue is a consequence of the strongest defensible delta — never the starting point.
 >
-> Status: draft v0.1 · Last updated: 2026-10-27
+> Status: draft v0.2 · Last updated: 2026-10-27
 
 ---
 
@@ -112,6 +112,12 @@ The empty cells of the columns *combined* (SDMX grounding + provenance + calibra
 | ID | Experiment | Proves | Claim |
 |---|---|---|---|
 | E1 | Schema-linking ablation: raw schema vs. +KG vs. +KG+hybrid retrieval → EX, EM, token cost | Standards grounding buys accuracy and efficiency | A, C |
+
+**E1 status (2026-10-27):** phase 1 (context ablation, no LLM) executed — KG conditions
+held gold recall 1.00 while cutting unrelated tables −90%, and at BPS-scale schema width
+cut context tokens ≈77× (5692 → 74); label coverage 0.00 → 1.00. Phase 2 (LLM → SQL →
+DuckDB EX) gated on an LLM API key. Artifacts: [`eval/e1_schema_linking/`](../eval/e1_schema_linking/),
+[runtime spike](spikes/001-rdf-schema-linking.md).
 | E2 | Calibration: ECE, AUROC, abstention quality with domain-grounded refusal reasons | Trust layer works; knows what it doesn't know | B |
 | E3 | Provenance completeness audit: % answers with full PROV-O chain | Auditability claim is real | A |
 | E4 | Multi-turn stability: perplexity flat over >20 turns (PRD §10.2) | C-DIC works at conversation scale | system |
@@ -126,6 +132,7 @@ The empty cells of the columns *combined* (SDMX grounding + provenance + calibra
 3. ~~**ADR-0001 (graph model: RDF)**~~ — **resolved:** `docs/adr/0001-graph-model-rdf-over-lpg.md` records the decision, the considered options (Neo4j, Memgraph, Ultipa, hybrid), consequences, and revisit triggers.
 4. ~~**README sync**~~ — **resolved:** README now reflects the RDF/SPARQL direction (capabilities, architecture diagram, tech stack, docs structure).
 5. **Related-work verification** — Gov-Transparency paper (2025) and SISCC SDMX+AI materials need a full read during the formal related-work pass.
+6. ~~**Is plain SPARQL sufficient for the KG's role?**~~ — **resolved (spike 001):** entity resolution, multi-hop linking, targeted `CONSTRUCT` context, and PROV-O lineage all execute without an LPG. New derived requirement: the KG's token advantage depends on a **compact schema-card serializer** — dumping raw Turtle *loses* to raw DDL (206 vs 81 tokens at toy scale); see [`docs/spikes/001-rdf-schema-linking.md`](spikes/001-rdf-schema-linking.md) finding 2.
 
 ---
 
